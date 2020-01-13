@@ -1,0 +1,126 @@
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+  hystrix:
+    enabled: true   # feign默认是关闭hystrix的,当为feign添加回退容错时必须开启才起作用
+    
+hystrix: 
+  threadpool: 
+       iot-one: 
+          coreSize: 30       # 默认是hystrix.threadpool.default.coreSize = 10
+          maximumSize: 30    # 默认是hystrix.threadpool.default.maximumSize = 10
+    
+ribbon:
+  ReadTimeout: 60000
+  ConnectTimeout: 30000
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 15000  
+# 日志
+logging:
+  config: classpath:log4j2-production.xml
+  
+spring:
+  # 多环境配置文件
+  profiles:
+    active: dev
+  freemarker:
+    prefer-file-system-access: false #不然注册中心界面出不来
+  application:
+    name: iot-business-dcom
+  http:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 1000MB
+
+# session共享    
+  session:
+    storeType: none
+# @ResponseBody 这里使用自定义的
+#  jackson:
+#    date-format: yyyy-MM-dd HH:mm:ss
+#    default-property-inclusion: non_null 
+# 缓存
+  cache:
+    type: redis
+# AOP
+  aop:
+    proxy-target-class: true
+    auto: true
+  
+# 分页 page helper
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
+# 压缩,这个属性样板打开了压缩选项，这样稍后应用到JSON正文的压缩就有保证了。
+server:
+  compression:
+    enabled: true
+    mime-types: application/json
+# jwt 配置
+jwt:
+  # header中key,以改值为key在header中获取 request.getHeader('key')
+  header: token
+  # 签名密钥
+  secret: iot-dcom
+  # 过期时间,单位:秒
+  expiration: 72000
+  # 每个租户唯一
+  tenantId: 1
+# mybatis 枚举处理器包位置
+mybatis:
+  type-handlers-package: com.md-manage.handler
+  mapperLocations: classpath*:com/loncom/*/mapper/xml/*.xml,com/loncom/mapper/xml/*.xml,xml/*/*.xml
+  
+# 添加用户认证
+security:
+    basic:
+      enabled: true       # 开启基于HTTP basic的认证
+    user:
+      name: admin         # 配置登录的账号
+      password: 123456    # 配置登录的密码是password123 
+      
+zuul:
+  # ignored-services: iot-restful-client  # 忽略指定微服务
+   routes:
+      iot-serve-deviceShadow: /deviceShadow/**      # 指定微服务路径    
+      iot-restful-consumer: /consumer/** 
+      lc_conn_netty: /connect/**   # netty服务器的路径
+
+#文件路径 
+uploadFilePath: /opt/data/files/fileTemp/
+downFilePath: /opt/data/files/fileTemp/
+
+# 系统管理模块的一些配置
+systemSetting: 
+  # 登录前查应用配置信息，需要固化这个TenantId
+  tenantId: 1
+  logo: 
+    userLogoPath: /opt/data/files/images/user/
+    appLogoPath: /opt/data/files/images/appLogo
+    loginLogoPath: /opt/data/files/images/loginLogo
+    loginLogo: /opt/dcom/assets/images/login/logo_cosmic.png
+    appLogo: /opt/dcom/assets/images/login/pdt.png
+
+license: 
+  system: new
+  key: Loncom2018Yanfa2
+  filePath: /opt/data/files/license/
+  fileName: loncomLicense.lic
+  newFileName: loncomLicenseNew.lic
+  # 单位是字节，500kb=512000b，50kb=51200b
+  fileSize: 512000
+  
+# 函数库，图元图标，保存位置
+systemFunction.icon.path: /opt/data/files/images/function/icon/
+# systemFunction.icon.path: D:\\test\\icon
+
+# 系统消息是否发送短信，0：关闭，1：开启，默认关闭
+system.messge.send.sms: 0
+
+# 动环数据推送
+pushDataUri: 
+
+  

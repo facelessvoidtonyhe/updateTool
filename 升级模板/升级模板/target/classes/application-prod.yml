@@ -1,0 +1,69 @@
+# 服务器
+server:
+  port: 8083
+  session:
+    timeout: 1800  # 30 分钟
+
+#注册中心
+eureka:
+  instance:
+          instance-id: ${spring.cloud.client.ipAddress}:${spring.application.name}:${server.port}
+          prefer-ip-address: true
+          hostname: ${spring.cloud.client.ipAddress}
+  client:
+    serviceUrl:
+      defaultZone: http://admin:123456@localhost:9205/eureka/
+      # defaultZone: http://admin:123456@peer1:8761/eureka/,http://admin:123456@peer2:8762/eureka/
+
+# 数据库
+druid:
+  url: jdbc:mysql://localhost:3306/springboot?useUnicode=true&characterEncoding=utf-8&useSSL=false
+  userName: root
+  password: 123456
+
+# 配置redis  cluster=false ，说明是单机版的。
+redis: 
+  iscluster: true
+# 配置redis 假如用的是 cluster的地址列表 ，用逗号隔开
+  cluster: 
+    host: 192.168.6.102:9001,192.168.6.102:9004,192.168.6.103:9002,192.168.6.103:9005,192.168.6.104:9003,192.168.6.104:9006
+# 配置redis 假如用的是 单机版
+  single: 
+    host: 192.168.1.150:6379
+spring:
+# kafka
+  kafka:
+    #bootstrap-servers: 192.168.6.102:9092,192.168.6.103:9092,192.168.6.104:9092
+    #单机版用这个地址
+    bootstrap-servers: 192.168.1.155:9092
+    producer:
+      batch-size: 26384
+      buffer-memory: 33554432
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.ByteArraySerializer 
+    consumer:
+      group-id: consumer-prorps
+      auto-offset-reset: latest
+      session.timeout.ms: 60000
+      enable-auto-commit: false
+      auto-commit-interval: 1000
+      max-poll-records: 600
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.ByteArrayDeserializer
+    #自定义 concurrency 为通道数，需要kafka分区配合使用。实例数量*concurrency=分区数量。需要用命为property主题增加分区
+      concurrency: 10
+      batch: true 
+kafkaConcurrency: 10
+   
+# 控制静态资源的访问,生产环境不能访问swagger-ui.html
+spring:
+  resources:
+    static-locations: classpath:/static/
+
+#成都人行定制
+cdrh:
+  enable: true
+  serverip: 192.168.1.100
+  serverport: 8888
+  loginuser: system
+  loginpwd: 123

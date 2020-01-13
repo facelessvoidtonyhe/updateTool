@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+	updateCheck="false" dynamicConfig="false" monitoring="autodetect">
+	<diskStore path="java.io.tmpdir" />
+	<!-- 指定一个文件目录，当EhCache把数据写到硬盘上时，将把数据写到这个文件目录下 -->
+	<!--<diskStore path="logs/ehcache"/> -->
+	<!-- 设定缓存的默认数据过期策略 -->
+	<defaultCache maxElementsInMemory="10000" eternal="false"
+		overflowToDisk="true" diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="120" />
+	<!--缓存系统,用于防止缓存穿透，不用集群同步。默认时间2秒。必须配置 -->
+	<cache name="hotkeys" maxElementsInMemory="300000"
+		eternal="false" overflowToDisk="false" timeToLiveSeconds="6"
+		diskPersistent="false" diskExpiryThreadIntervalSeconds="0">
+	</cache>
+	<!--缓存系统,计数器缓存。必须配置 -->
+	<cache name="counter" maxElementsInMemory="500000" eternal="true"
+		overflowToDisk="false" diskPersistent="false"
+		diskExpiryThreadIntervalSeconds="0">
+	</cache>
+	<!--注意：以上部分不可修改 -->
+	<!--以下为业务缓存 -->
+	<cache name="dcom:space" maxElementsInMemory="10000000"
+		eternal="true" overflowToDisk="false" diskPersistent="false">
+	</cache>
+
+	<cache name="dcom:category" maxElementsInMemory="10000000"
+		eternal="true" overflowToDisk="false" diskPersistent="false">
+	</cache>
+
+	<cache name="dcom:user" maxElementsInMemory="10000000"
+		eternal="false" overflowToDisk="false" diskPersistent="false"
+		timeToIdleSeconds="86400">
+	</cache>
+    <cache name="dcom:event" maxElementsInMemory="10000000"
+		eternal="false" overflowToDisk="false" diskPersistent="false"
+		timeToIdleSeconds="86400">
+	</cache>
+	
+	<!-- 事件等级 -->
+	<cache name="dcom:event:level" maxElementsInMemory="10000000"
+		eternal="false" overflowToDisk="false" diskPersistent="false"
+		timeToIdleSeconds="86400">
+	</cache>
+	
+	<!-- 事件数量 -->
+	<cache name="dcom:event:count" maxElementsInMemory="10000000"
+		eternal="false" overflowToDisk="false" diskPersistent="false"
+		timeToIdleSeconds="86400">
+	</cache>
+	<cache name="dcom:auth" maxElementsInMemory="10000000"
+		eternal="false" overflowToDisk="false" diskPersistent="false"
+		timeToIdleSeconds="86400">
+	</cache>
+	<cache name="dcom:resource" maxElementsInMemory="10000000"
+		eternal="false" overflowToDisk="false" diskPersistent="false"
+		timeToIdleSeconds="86400">
+	</cache>
+	<cache name="dcom:capacity" maxElementsInMemory="10000000"
+		eternal="false" overflowToDisk="false" diskPersistent="false"
+		timeToIdleSeconds="86400">
+	</cache>
+	<!-- 值班签到 -->
+	<cache name="dcom:dutysign" maxElementsInMemory="10000000"
+		   eternal="false" overflowToDisk="false" diskPersistent="false"
+		   timeToIdleSeconds="86400">
+	</cache>
+	
+	<cache name="system:executejob" maxElementsInMemory="10000000"
+		   eternal="false" overflowToDisk="false" diskPersistent="false"
+		   timeToIdleSeconds="86400">
+	</cache>
+	
+</ehcache>
