@@ -11,7 +11,7 @@
                 <ResourceDictionary Source="pack://application:,,,/UpgradeGenerator;component/Styles/Bootstrap.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/UpgradeGenerator;component/PathGeometries/Glyphicons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            <SampleData:SampleDataSource x:Key="SampleDataSource" d:IsDataSource="True"/>
+            <!--<SampleData:SampleDataSource x:Key="SampleDataSource" d:IsDataSource="True"/>-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

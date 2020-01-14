@@ -1,4 +1,0 @@
-前端升级：  压缩为 dist.tar.gz 放入根目录和classes为同一目录下 
-模板升级： 压缩为 templates.tar.gz 放入根目录和classes为同一目录下
-sql升级：需准备升级sql和回滚sql
- 
